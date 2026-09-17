@@ -28,10 +28,30 @@ function menu() {
             console.log("9. Trier les apprenants par ordre alphabétique");
             console.log("0. Quitter");
 
-            choix = prompt("choisit une option: ") 
-        } while (choix !== "0");
+            choix = Number(prompt("choisit une option: ")) 
+
+           switch (choix) {
+                case 0:
+                    console.log("Au revoir!");
+                    break;
+                    
+                case 1:
+                    console.log("Dashboard");
+                    break;
+
+                case 2:
+                    console.log("apprenat");
+                    break;
+            
+                default:
+                    console.log("Ce choix n'existe pas .");
+                    break;
+            }
+        } while (choix !== 0);
 }
 
 function main() {
     menu()
 }
+
+main();
