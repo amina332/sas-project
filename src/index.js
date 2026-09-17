@@ -1,4 +1,4 @@
-const prompt = require('prompt-sync')
+const prompt = require('prompt-sync')()
 
 function normaliserNom(nom) {
     nom = nom.trim() // kat7yd les espaces flwl w flakhr dyal string
@@ -32,3 +32,5 @@ function menu() {
         } while (choix !== "0");
 }
 
+
+menu()
