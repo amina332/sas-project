@@ -1,16 +1,16 @@
 const prompt = require('prompt-sync')()
 
 function normaliserNom(nom) {
-    nom = nom.trim() // kat7yd les espaces flwl w flakhr dyal string
-    nom = nom.toLowerCase() // kathawl les lettres en miniscules
-    let nomArray = nom.split(" ") // kat7wl wahd string l array mn kol espaces example "Wassim Rifi" -> ["Wassim" , "Rifi"]
+    nom = nom.trim() 
+    nom = nom.toLowerCase() 
+    let nomArray = nom.split(" ") 
  
     for (let i = 0; i < nomArray.length; i++) {
         
         nomArray[i] = nomArray[i].charAt(0).toUpperCase() + nomArray[i].slice(1);
     }
 
-    return nomArray.join(" ") // kat7awl wahd l array l string w katht bin kol klma w klma espace
+    return nomArray.join(" ") 
 }
 
 function menu() {
@@ -32,5 +32,6 @@ function menu() {
         } while (choix !== "0");
 }
 
-
-menu()
+function main() {
+    menu()
+}
