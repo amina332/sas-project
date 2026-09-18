@@ -1,6 +1,6 @@
 const prompt = require('prompt-sync')()
 
-let apprenant = []
+let apprenants = []
 
 function normaliserNom(nom) {
     nom = nom.trim() 
@@ -38,6 +38,35 @@ function validerResultat(jour , totalExercices , exercicesTermines , challengeTe
     }
 }
 
+function ajouterApprenant() { //les parametre
+    let id = Number(prompt("Entrer l'id d'apprenant : "));
+
+    if (!Number.isInteger(id)) {
+        console.log("id doit etre un nombre");
+        return;
+    }
+
+    for (let i = 0; i < apprenants.length; i++) {
+        if (id === apprenants[i].id) {
+            console.log("ce id a ete deja declarer");
+            return;
+        }
+    }
+
+    let nomComplet = prompt(" entrer le nomComplet de l'apprenant : ")
+    let ville = prompt("entrer la ville de l'apprenant : ")
+
+    let a = {
+        id: id,
+        nomComplet: normaliserNom(nomComplet),
+        ville: normaliserNom(ville),
+        resultat: []
+    }
+
+    apprenants.push(a) //ajouter une valeur a la fin de tableau
+    
+}
+
 function menu() {
     let choix
         do {
@@ -57,16 +86,18 @@ function menu() {
 
            switch (choix) {
                 case 0:
-                    validerResultat(8);
                     break;
                     
                 case 1:
-                    console.log("Dashboard");
                     break;
 
                 case 2:
                     console.log("apprenat");
                     break;
+                
+                case 3:
+                    ajouterApprenant()
+                    break    
             
                 default:
                     console.log("Ce choix n'existe pas .");
