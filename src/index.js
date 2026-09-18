@@ -1,16 +1,41 @@
 const prompt = require('prompt-sync')()
 
+let apprenant = []
+
 function normaliserNom(nom) {
     nom = nom.trim() 
     nom = nom.toLowerCase() 
-    let nomArray = nom.split(" ") 
+    let nomArray = nom.split(" ")  // kathawl string l array
  
     for (let i = 0; i < nomArray.length; i++) {
         
         nomArray[i] = nomArray[i].charAt(0).toUpperCase() + nomArray[i].slice(1);
     }
 
-    return nomArray.join(" ") 
+    return nomArray.join(" ") // katjme3 les proprietee dyal array f string
+}
+
+
+function validerResultat(jour , totalExercices , exercicesTermines , challengeTermine) {
+    if (!Number.isInteger(jour) || !Number.isInteger(totalExercices) || !Number.isInteger(exercicesTermines)) {
+        console.log("Vous avez un error , le jour ou le total d'exircicr doit etre un nombre entier.");
+    }
+
+    if (jour < 1 || jour > 7) {
+        console.log("Le jour doit être compris entre 1 et 7.");
+    }
+
+    if (totalExercices <= 0) {
+        console.log("le totalExercices doit etre superieur strictement a 0");
+    }
+
+     if (exercicesTermines < 1 || exercicesTermines > totalExercices) {
+        console.log("exercicesTermines doit etre sup ou egale a exercicesTermines et il doit etre inferieure ou egale a totalExercices");
+    }
+
+    if (challengeTermine !== Boolean) {
+            console.log("doit etre un true or false");
+    }
 }
 
 function menu() {
@@ -32,7 +57,7 @@ function menu() {
 
            switch (choix) {
                 case 0:
-                    console.log("Au revoir!");
+                    validerResultat(8);
                     break;
                     
                 case 1:
