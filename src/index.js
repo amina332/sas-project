@@ -197,6 +197,10 @@ function trierParProgression() {
     console.log(a);
 
 }
+function trierParNom() {
+    let a = apprenants.sort((b, c) => b.nomComplet - c.nomComplet)
+    console.log(a);
+}
 function menu() {
     let choix
     do {
@@ -239,6 +243,9 @@ function menu() {
                 break;
             case 8:
                 trierParProgression()
+                break;
+            case 9:
+                trierParNom()
                 break;
 
             default:
