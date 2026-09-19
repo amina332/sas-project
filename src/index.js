@@ -173,6 +173,25 @@ return{
     progression
 }
 }
+function filtrerParNiveau(){
+    let niveau = prompt("entrer le niveau : ")
+    niveau.toLowerCase()
+    let a = []
+    for (let i = 0 ; i < apprenants.length ; i++){
+        let progression = calculerProgression(apprenants[i])
+        if (niveau === "solide" && progression.progression >= 80 ){
+            a.push(apprenants[i])
+
+        }else if (niveau === "en progression" && progression.progression >=50 && progression.progression<=79){
+            a.puch(apprenants[i])
+            
+        }else if (niveau === "a renforcer" && progression.progression < 50){
+            a.push(apprenants[i])
+        }
+    }
+    console.log(a);
+    
+}
 function menu() {
     let choix
         do {
@@ -210,6 +229,9 @@ function menu() {
                 case 5 :
                      rechercherApprenant()   
                      break;
+                case 7 :
+                     filtrerParNiveau()
+                    break;
             
                 default:
                     console.log("Ce choix n'existe pas .");
