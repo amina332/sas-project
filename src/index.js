@@ -200,6 +200,12 @@ function trierParNom() {
     let a = apprenants.sort((b, c) => b.nomComplet - c.nomComplet)
     console.log(a);
 }
+function afficherApprenants(){
+    for(let i = 0; i  <apprenants.length; i++){
+        console.log(apprenants[i]);
+        
+    }
+}
 function menu() {
     let choix
     do {
@@ -225,7 +231,7 @@ function menu() {
                 break;
 
             case 2:
-                console.log("apprenat");
+                afficherApprenants()
                 break;
 
             case 3:
