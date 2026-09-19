@@ -33,7 +33,7 @@ function validerResultat(jour , totalExercices , exercicesTermines , challengeTe
         console.log("exercicesTermines doit etre sup ou egale a exercicesTermines et il doit etre inferieure ou egale a totalExercices");
     }
 
-    if (challengeTermine !== Boolean) {
+    if (challengeTermine !== true && challengeTermine !== false) {
             console.log("doit etre un true or false");
     }
 }
@@ -67,6 +67,49 @@ function ajouterApprenant() { //les parametre
     
 }
 
+function enregistrerResultat() {
+    let id= Number(prompt("entrer id des app"))
+    if (!Number.isInteger(id)){
+        console.log("id doit etre un nombre entier");
+        return;
+        
+    }
+     let apprenant;
+    for (let i = 0; i < apprenants.length; i++) {
+        if (id === apprenants[i].id){
+            apprenant = apprenants[i]
+        }
+        
+    }
+    if(apprenant === undefined) {
+        console.log("aucun apprenant admet ce id");
+        return;
+    }
+    let jour= Number(prompt(" entrer jour des app"))
+    let exercicesTermines= Number(prompt("entrer exercicesTermines des app"))
+    let totalExercices= Number(prompt("entrer totalExercices des app"))
+    let challengeTermine= Number(prompt("enter challengeTermine des app soit 1 pour true et 0 pour false "))
+
+    if (challengeTermine === 1) {
+        challengeTermine = true
+    }else if (challengeTermine ===0){
+        challengeTermine = false
+    }else {
+        console.log("si ce choix n'est pas valider");
+     return   
+    }
+   
+    
+validerResultat(jour , totalExercices , exercicesTermines , challengeTermine)
+    let resultat = {
+        jour: jour,
+         exercicesTermines: exercicesTermines,
+         totalExercices: totalExercices,
+         challengeTermine: challengeTermine
+    }
+    apprenant.resultat.push(resultat)
+}
+
 function menu() {
     let choix
         do {
@@ -97,7 +140,10 @@ function menu() {
                 
                 case 3:
                     ajouterApprenant()
-                    break    
+                    break   
+                case 4 :
+                    enregistrerResultat()
+                    break;
             
                 default:
                     console.log("Ce choix n'existe pas .");
