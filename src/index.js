@@ -109,8 +109,7 @@ function enregistrerResultat() {
     }
     apprenant.resultat.push(resultat)
 }
-function rechercherApprenant() {
-    let recherchons = prompt("entrer id ou le nom d'app : ")
+function rechercherApprenant(recherchons) {
     let apprenant;
 
     if (!Number.isNaN(Number(recherchons))) {
@@ -233,10 +232,15 @@ function menu() {
                 ajouterApprenant()
                 break
             case 4:
-                enregistrerResultat()
+                let id = prompt("entrer id d'app : ")
+                rechercherApprenant(id)
                 break;
             case 5:
-                rechercherApprenant()
+                enregistrerResultat()
+                break;
+            case 6:
+                let nom = prompt("entrer nom d'app : ")
+                rechercherApprenant(nom)
                 break;
             case 7:
                 filtrerParNiveau()
