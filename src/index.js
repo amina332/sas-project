@@ -147,24 +147,32 @@ for (let i = 0; i < apprenants.length; i++) {
 
     console.log(apprenant);
     }
-    // if (!Number.isInteger(id)){
-    //     console.log("id doit etre un nombre entier");
-    //     return;
-        
-    // }
-    //  let apprenant;
-    // for (let i = 0; i < apprenants.length; i++) {
-    //     if (id === apprenants[i].id){
-    //         apprenant = apprenants[i]
-    //     }
-        
-    // }
-    // if(apprenant === undefined) {
-    //     console.log("aucun apprenant admet ce id");
-    //     return;
-    // }
+    
 }
 
+function calculerProgression(apprenant){
+    let exercicesTermines = 0
+    let  exercicesProposes = 0
+    let  challengesTermines = 0
+    let  journeesRenseignees = apprenant.resultat.length
+    
+for (let i = 0; i < journeesRenseignees; i++){
+    exercicesTermines += apprenant.resultat[i].exercicesTermines
+    exercicesProposes += apprenant.resultat[i].exercicesProposes
+    if(apprenant.resultat[i].challengeTermine ===true){
+        challengesTermines++
+    }
+
+}
+let progression = (exercicesTermines / exercicesProposes ) *100
+return{
+    exercicesTermines,
+    exercicesProposes,
+    challengesTermines,
+    journeesRenseignees,
+    progression
+}
+}
 function menu() {
     let choix
         do {
