@@ -109,6 +109,61 @@ validerResultat(jour , totalExercices , exercicesTermines , challengeTermine)
     }
     apprenant.resultat.push(resultat)
 }
+function rechercherApprenant(){
+    let recherchons = prompt("entrer id ou le nom d'app : ")
+    let apprenant;
+
+    if (!Number.isNaN(Number(recherchons))){
+        let id = Number(recherchons)
+      if (!Number.isInteger(id)){
+        console.log("id doit etre un nombre entier");
+        return;
+        
+    }
+    for (let i = 0; i < apprenants.length; i++) {
+        if (id === apprenants[i].id){
+            apprenant = apprenants[i]
+        }
+        
+    }
+    if(apprenant === undefined) {
+        console.log("aucun apprenant admet ce id");
+        return;
+    }  
+
+    console.log(apprenant);
+    
+    } else {
+for (let i = 0; i < apprenants.length; i++) {
+        if (recherchons === apprenants[i].nomComplet){
+            apprenant = apprenants[i]
+        }
+        
+    }
+    if(apprenant === undefined) {
+        console.log("aucun apprenant admet ce id");
+        return;
+    }  
+
+    console.log(apprenant);
+    }
+    // if (!Number.isInteger(id)){
+    //     console.log("id doit etre un nombre entier");
+    //     return;
+        
+    // }
+    //  let apprenant;
+    // for (let i = 0; i < apprenants.length; i++) {
+    //     if (id === apprenants[i].id){
+    //         apprenant = apprenants[i]
+    //     }
+        
+    // }
+    // if(apprenant === undefined) {
+    //     console.log("aucun apprenant admet ce id");
+    //     return;
+    // }
+}
 
 function menu() {
     let choix
@@ -144,6 +199,9 @@ function menu() {
                 case 4 :
                     enregistrerResultat()
                     break;
+                case 5 :
+                     rechercherApprenant()   
+                     break;
             
                 default:
                     console.log("Ce choix n'existe pas .");
