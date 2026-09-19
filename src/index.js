@@ -200,11 +200,35 @@ function trierParNom() {
     let a = apprenants.sort((b, c) => b.nomComplet - c.nomComplet)
     console.log(a);
 }
-function afficherApprenants(){
-    for(let i = 0; i  <apprenants.length; i++){
+function afficherApprenants() {
+    for (let i = 0; i < apprenants.length; i++) {
         console.log(apprenants[i]);
-        
+
     }
+}
+function afficherTableauDeBord() {
+    let apprenantNumber = apprenants.length
+    let solideNumber = 0
+    let enProgressionNumber = 0
+    let aRenforcerNumber = 0
+    for (let i = 0; i < apprenants.length; i++) {
+        let progression = calculerProgression(apprenants[i])
+        if (progression.progression >= 80) {
+            solideNumber++
+
+        } else if (progression.progression >= 50 && progression.progression <= 79) {
+            enProgressionNumber++
+
+        } else if (progression.progression < 50) {
+            aRenforcerNumber++
+        }
+    }
+
+    console.log("--- TABLEAU DE BORD ---");
+    console.log("Apprenants : " + apprenantNumber);
+    console.log("Solide : " + solideNumber);
+    console.log("En progression : " + enProgressionNumber);
+    console.log("À renforcer : " + aRenforcerNumber);
 }
 function menu() {
     let choix
@@ -228,6 +252,7 @@ function menu() {
                 break;
 
             case 1:
+                afficherTableauDeBord()
                 break;
 
             case 2:
