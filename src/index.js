@@ -44,40 +44,45 @@ function niveauDe(progression) {
 function normaliserNom(nom) {
     nom = nom.trim()
     nom = nom.toLowerCase()
-    let nomArray = nom.split(" ")  // kathawl string l array
+    let nomArray = nom.split(" ") 
 
     for (let i = 0; i < nomArray.length; i++) {
 
         nomArray[i] = nomArray[i].charAt(0).toUpperCase() + nomArray[i].slice(1);
     }
 
-    return nomArray.join(" ") // katjme3 les proprietee dyal array f string
+    return nomArray.join(" ") 
 }
 
 
 function validerResultat(jour, totalExercices, exercicesTermines, challengeTermine) {
     if (!Number.isInteger(jour) || !Number.isInteger(totalExercices) || !Number.isInteger(exercicesTermines)) {
         console.log("Vous avez un error , le jour ou le total d'exircicr doit etre un nombre entier.");
+        return;
     }
 
     if (jour < 1 || jour > 7) {
         console.log("Le jour doit être compris entre 1 et 7.");
+        return;
     }
 
     if (totalExercices <= 0) {
         console.log("le totalExercices doit etre superieur strictement a 0");
+        return;
     }
 
     if (exercicesTermines < 1 || exercicesTermines > totalExercices) {
         console.log("exercicesTermines doit etre sup ou egale a exercicesTermines et il doit etre inferieure ou egale a totalExercices");
+        return;
     }
 
     if (challengeTermine !== true && challengeTermine !== false) {
         console.log("doit etre un true or false");
+        return;
     }
 }
 
-function ajouterApprenant() { //les parametre
+function ajouterApprenant() { 
     titre("Ajouter Apprenant")
     let id = Number(prompt("Entrer l'ID de l'apprenant : "));
 
@@ -103,12 +108,12 @@ function ajouterApprenant() { //les parametre
         resultat: []
     }
 
-    apprenants.push(a) //ajouter une valeur a la fin de tableau
+    apprenants.push(a)
     console.log(`Apprenant "${a.nomComplet}" (id: ${a.id}) ajouté avec succès.`);
 }
 
 function enregistrerResultat() {
-    titre("Ajouter Resultat")
+    titre("Ajouter / Modifier Resultat")
     let id = Number(prompt("Entrer l'ID de l'apprenant : "))
     if (!Number.isInteger(id)) {
         console.log("Erreur : l'ID doit être un nombre entier.");
@@ -129,7 +134,7 @@ function enregistrerResultat() {
     let jour = Number(prompt("Entrer le numéro du jour (1-7) : "))
     let exercicesTermines = Number(prompt("Entrer le nombre d'exercices terminés : "))
     let totalExercices = Number(prompt("Entrer le nombre total d'exercices : "))
-    let challengeTermine = Number(prompt("Le challenge est-il terminé ? (1 = oui, 0 = non) : "))
+    let challengeTermine = Number(prompt("Le challenge est-il terminé ? (1 = true, 0 = false) : "))
 
     if (challengeTermine === 1) {
         challengeTermine = true
@@ -175,8 +180,16 @@ function afficherFicheApprenant(apprenant) {
     console.log("--------------------------------------")
     console.log("Détail par jour :")
     for (let i = 0; i < apprenant.resultat.length; i++) {
-        let r = apprenant.resultat[i]
-        console.log(`  Jour ${r.jour} : ${r.exercicesTermines}/${r.totalExercices} exercices - challenge ${r.challengeTermine ? "terminé" : "non terminé"}`)
+        let resultat = apprenant.resultat[i]
+        let termine;
+
+        if (resultat.challengeTermine) {
+            termine = "terminé"
+        } else {
+            termine = "non terminé"
+        }
+
+        console.log(`  Jour ${resultat.jour} : ${resultat.exercicesTermines}/${resultat.totalExercices} exercices - challenge ${termine}`)
     }
     console.log("--------------------------------------")
 }
@@ -186,11 +199,7 @@ function rechercherApprenant(recherchons) {
 
     if (!Number.isNaN(Number(recherchons))) {
         let id = Number(recherchons)
-        if (!Number.isInteger(id)) {
-            console.log("Erreur : l'ID doit être un nombre entier.");
-            return;
 
-        }
         for (let i = 0; i < apprenants.length; i++) {
             if (id === apprenants[i].id) {
                 apprenant = apprenants[i]
@@ -206,7 +215,7 @@ function rechercherApprenant(recherchons) {
 
     } else {
         for (let i = 0; i < apprenants.length; i++) {
-            if (recherchons === apprenants[i].nomComplet) {
+            if (recherchons.toLowerCase() === apprenants[i].nomComplet.toLowerCase()) {
                 apprenant = apprenants[i]
             }
 
@@ -225,6 +234,7 @@ function calculerProgression(apprenant) {
     let exercicesTermines = 0
     let exercicesProposes = 0
     let challengesTermines = 0
+    let progression = 0
     let journeesRenseignees = apprenant.resultat.length
 
     for (let i = 0; i < journeesRenseignees; i++) {
@@ -235,7 +245,8 @@ function calculerProgression(apprenant) {
         }
 
     }
-    let progression = journeesRenseignees === 0 ? 0 : (exercicesTermines / exercicesProposes) * 100
+    
+    progression = (exercicesTermines / exercicesProposes) * 100
     return {
         exercicesTermines,
         exercicesProposes,
