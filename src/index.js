@@ -108,7 +108,7 @@ function ajouterApprenant() { //les parametre
 }
 
 function enregistrerResultat() {
-    titre("Ajojuter Resultat")
+    titre("Ajouter Resultat")
     let id = Number(prompt("Entrer l'ID de l'apprenant : "))
     if (!Number.isInteger(id)) {
         console.log("Erreur : l'ID doit être un nombre entier.");
@@ -140,14 +140,25 @@ function enregistrerResultat() {
         return
     }
 
-
-    validerResultat(jour, totalExercices, exercicesTermines, challengeTermine)
     let resultat = {
         jour: jour,
         exercicesTermines: exercicesTermines,
         totalExercices: totalExercices,
         challengeTermine: challengeTermine
     }
+
+
+    validerResultat(jour, totalExercices, exercicesTermines, challengeTermine)
+
+    for (let i = 0; i < apprenant.resultat.length; i++) {
+        if (jour === apprenant.resultat[i].jour){
+            apprenant.resultat[i] = resultat
+            return;
+        }
+        
+    }
+
+
     apprenant.resultat.push(resultat)
     console.log(`Résultat du jour ${jour} enregistré pour ${apprenant.nomComplet}.`);
 }
