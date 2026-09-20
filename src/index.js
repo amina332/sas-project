@@ -1,27 +1,45 @@
 const prompt = require('prompt-sync')()
 
 const apprenants = [
-  {
-    id: 1,
-    nomComplet: "Sara Dev",
-    ville: "Nador",
-    resultat: [
-      { jour: 1, exercicesTermines: 18,
-        totalExercices: 20, challengeTermine: true },
-      { jour: 2, exercicesTermines: 14,
-        totalExercices: 20, challengeTermine: false }
-    ]
-  },
-  {
-    id: 2,
-    nomComplet: "Yassine Code",
-    ville: "Oujda",
-    resultat: [
-      { jour: 1, exercicesTermines: 12,
-        totalExercices: 20, challengeTermine: false }
-    ]
-  }
+    {
+        id: 1,
+        nomComplet: "Sara Dev",
+        ville: "Nador",
+        resultat: [
+            {
+                jour: 1, exercicesTermines: 18,
+                totalExercices: 20, challengeTermine: true
+            },
+            {
+                jour: 2, exercicesTermines: 14,
+                totalExercices: 20, challengeTermine: false
+            }
+        ]
+    },
+    {
+        id: 2,
+        nomComplet: "Yassine Code",
+        ville: "Oujda",
+        resultat: [
+            {
+                jour: 1, exercicesTermines: 12,
+                totalExercices: 20, challengeTermine: false
+            }
+        ]
+    }
 ];
+
+function titre(texte) {
+    console.log("--------------------------------------");
+    console.log("--- " + texte.toUpperCase() + " ---");
+    console.log("--------------------------------------");
+}
+
+function niveauDe(progression) {
+    if (progression >= 80) return "Solide";
+    if (progression >= 50) return "En progression";
+    return "À renforcer";
+}
 
 function normaliserNom(nom) {
     nom = nom.trim()
@@ -60,22 +78,23 @@ function validerResultat(jour, totalExercices, exercicesTermines, challengeTermi
 }
 
 function ajouterApprenant() { //les parametre
-    let id = Number(prompt("Entrer l'id d'apprenant : "));
+    titre("Ajouter Apprenant")
+    let id = Number(prompt("Entrer l'ID de l'apprenant : "));
 
     if (!Number.isInteger(id)) {
-        console.log("id doit etre un nombre");
+        console.log("Erreur : l'ID doit être un nombre entier.");
         return;
     }
 
     for (let i = 0; i < apprenants.length; i++) {
         if (id === apprenants[i].id) {
-            console.log("ce id a ete deja declarer");
+            console.log("Erreur : cet ID est déjà utilisé.");
             return;
         }
     }
 
-    let nomComplet = prompt(" entrer le nomComplet de l'apprenant : ")
-    let ville = prompt("entrer la ville de l'apprenant : ")
+    let nomComplet = prompt("Entrer le nom complet de l'apprenant : ")
+    let ville = prompt("Entrer la ville de l'apprenant : ")
 
     let a = {
         id: id,
@@ -85,13 +104,14 @@ function ajouterApprenant() { //les parametre
     }
 
     apprenants.push(a) //ajouter une valeur a la fin de tableau
-
+    console.log(`Apprenant "${a.nomComplet}" (id: ${a.id}) ajouté avec succès.`);
 }
 
 function enregistrerResultat() {
-    let id = Number(prompt("entrer id des app"))
+    titre("Ajojuter Resultat")
+    let id = Number(prompt("Entrer l'ID de l'apprenant : "))
     if (!Number.isInteger(id)) {
-        console.log("id doit etre un nombre entier");
+        console.log("Erreur : l'ID doit être un nombre entier.");
         return;
 
     }
@@ -103,20 +123,20 @@ function enregistrerResultat() {
 
     }
     if (apprenant === undefined) {
-        console.log("aucun apprenant admet ce id");
+        console.log("Aucun apprenant ne correspond à cet ID.");
         return;
     }
-    let jour = Number(prompt(" entrer jour des app"))
-    let exercicesTermines = Number(prompt("entrer exercicesTermines des app"))
-    let totalExercices = Number(prompt("entrer totalExercices des app"))
-    let challengeTermine = Number(prompt("enter challengeTermine des app soit 1 pour true et 0 pour false "))
+    let jour = Number(prompt("Entrer le numéro du jour (1-7) : "))
+    let exercicesTermines = Number(prompt("Entrer le nombre d'exercices terminés : "))
+    let totalExercices = Number(prompt("Entrer le nombre total d'exercices : "))
+    let challengeTermine = Number(prompt("Le challenge est-il terminé ? (1 = oui, 0 = non) : "))
 
     if (challengeTermine === 1) {
         challengeTermine = true
     } else if (challengeTermine === 0) {
         challengeTermine = false
     } else {
-        console.log("si ce choix n'est pas valider");
+        console.log("Erreur : réponse invalide, entrez 1 ou 0.");
         return
     }
 
@@ -129,14 +149,34 @@ function enregistrerResultat() {
         challengeTermine: challengeTermine
     }
     apprenant.resultat.push(resultat)
+    console.log(`Résultat du jour ${jour} enregistré pour ${apprenant.nomComplet}.`);
 }
+
+function afficherFicheApprenant(apprenant) {
+    let progression = calculerProgression(apprenant)
+    titre("Fiche apprenant")
+    console.log("ID           : " + apprenant.id)
+    console.log("Nom complet  : " + apprenant.nomComplet)
+    console.log("Ville        : " + apprenant.ville)
+    console.log("Progression  : " + progression.progression.toFixed(1) + " % (" + niveauDe(progression.progression) + ")")
+    console.log("Journées     : " + progression.journeesRenseignees)
+    console.log("Challenges   : " + progression.challengesTermines)
+    console.log("--------------------------------------")
+    console.log("Détail par jour :")
+    for (let i = 0; i < apprenant.resultat.length; i++) {
+        let r = apprenant.resultat[i]
+        console.log(`  Jour ${r.jour} : ${r.exercicesTermines}/${r.totalExercices} exercices - challenge ${r.challengeTermine ? "terminé" : "non terminé"}`)
+    }
+    console.log("--------------------------------------")
+}
+
 function rechercherApprenant(recherchons) {
     let apprenant;
 
     if (!Number.isNaN(Number(recherchons))) {
         let id = Number(recherchons)
         if (!Number.isInteger(id)) {
-            console.log("id doit etre un nombre entier");
+            console.log("Erreur : l'ID doit être un nombre entier.");
             return;
 
         }
@@ -147,11 +187,11 @@ function rechercherApprenant(recherchons) {
 
         }
         if (apprenant === undefined) {
-            console.log("aucun apprenant admet ce id");
+            console.log("Aucun apprenant ne correspond à cet ID.");
             return;
         }
 
-        console.log(apprenant);
+        afficherFicheApprenant(apprenant);
 
     } else {
         for (let i = 0; i < apprenants.length; i++) {
@@ -161,11 +201,11 @@ function rechercherApprenant(recherchons) {
 
         }
         if (apprenant === undefined) {
-            console.log("aucun apprenant admet ce id");
+            console.log("Aucun apprenant ne correspond à ce nom.");
             return;
         }
 
-        console.log(apprenant);
+        afficherFicheApprenant(apprenant);
     }
 
 }
@@ -178,13 +218,13 @@ function calculerProgression(apprenant) {
 
     for (let i = 0; i < journeesRenseignees; i++) {
         exercicesTermines += apprenant.resultat[i].exercicesTermines
-        exercicesProposes += apprenant.resultat[i].exercicesProposes
+        exercicesProposes += apprenant.resultat[i].totalExercices
         if (apprenant.resultat[i].challengeTermine === true) {
             challengesTermines++
         }
 
     }
-    let progression = (exercicesTermines / exercicesProposes) * 100
+    let progression = journeesRenseignees === 0 ? 0 : (exercicesTermines / exercicesProposes) * 100
     return {
         exercicesTermines,
         exercicesProposes,
@@ -193,9 +233,11 @@ function calculerProgression(apprenant) {
         progression
     }
 }
+
 function filtrerParNiveau() {
-    let niveau = prompt("entrer le niveau : ")
-    niveau.toLowerCase()
+    titre("Filtrer par niveau")
+    let niveau = prompt("Entrer le niveau (solide / en progression / a renforcer) : ")
+    niveau = niveau.trim().toLowerCase()
     let a = []
     for (let i = 0; i < apprenants.length; i++) {
         let progression = calculerProgression(apprenants[i])
@@ -203,30 +245,56 @@ function filtrerParNiveau() {
             a.push(apprenants[i])
 
         } else if (niveau === "en progression" && progression.progression >= 50 && progression.progression <= 79) {
-            a.puch(apprenants[i])
+            a.push(apprenants[i])
 
         } else if (niveau === "a renforcer" && progression.progression < 50) {
             a.push(apprenants[i])
         }
     }
-    console.log(a);
 
-}
-function trierParProgression() {
-    let a = apprenants.map(app => calculerProgression(app)).sort((b, c) => b.progression - c.progression)
-    console.log(a);
-
-}
-function trierParNom() {
-    let a = apprenants.sort((b, c) => b.nomComplet - c.nomComplet)
-    console.log(a);
-}
-function afficherApprenants() {
-    for (let i = 0; i < apprenants.length; i++) {
-        console.log(i + 1 + " - " + apprenants[i].nomComplet + " - " + apprenants[i].ville);
-
+    titre("Apprenants - niveau " + niveau)
+    if (a.length === 0) {
+        console.log("Aucun apprenant ne correspond à ce niveau.")
+    } else {
+        for (let i = 0; i < a.length; i++) {
+            let p = calculerProgression(a[i])
+            console.log(`${i + 1} - ${a[i].nomComplet} (${a[i].ville}) - ${p.progression.toFixed(1)} %`)
+        }
     }
+    console.log("--------------------------------------")
 }
+
+function trierParProgression() {
+    let a = apprenants
+        .map(app => ({ app, p: calculerProgression(app) }))
+        .sort((b, c) => c.p.progression - b.p.progression)
+
+    titre("Classement par progression")
+    for (let i = 0; i < a.length; i++) {
+        console.log(`${i + 1} - ${a[i].app.nomComplet} - ${a[i].p.progression.toFixed(1)} % (${niveauDe(a[i].p.progression)})`)
+    }
+    console.log("--------------------------------------")
+}
+
+function trierParNom() {
+    let a =apprenants.slice().sort((b, c) => b.nomComplet.localeCompare(c.nomComplet))
+
+    titre("Apprenants par ordre alphabétique")
+    for (let i = 0; i < a.length; i++) {
+        console.log(`${i + 1} - ${a[i].nomComplet} - ${a[i].ville}`)
+    }
+    console.log("--------------------------------------")
+}
+
+function afficherApprenants() {
+    titre("Liste des apprenants")
+    for (let i = 0; i < apprenants.length; i++) {
+        let p = calculerProgression(apprenants[i])
+        console.log(`${i + 1} - ${apprenants[i].nomComplet} - ${apprenants[i].ville} - ${p.progression.toFixed(1)} %`)
+    }
+    console.log("--------------------------------------")
+}
+
 function afficherTableauDeBord() {
     let apprenantNumber = apprenants.length
     let solideNumber = 0
@@ -245,12 +313,14 @@ function afficherTableauDeBord() {
         }
     }
 
-    console.log("--- TABLEAU DE BORD ---");
-    console.log("Apprenants : " + apprenantNumber);
-    console.log("Solide : " + solideNumber);
-    console.log("En progression : " + enProgressionNumber);
-    console.log("À renforcer : " + aRenforcerNumber);
+    titre("Tableau de bord")
+    console.log("Apprenants      : " + apprenantNumber);
+    console.log("Solide          : " + solideNumber);
+    console.log("En progression  : " + enProgressionNumber);
+    console.log("À renforcer     : " + aRenforcerNumber);
+    console.log("--------------------------------------")
 }
+
 function menu() {
     let choix
     do {
@@ -266,7 +336,7 @@ function menu() {
         console.log("9. Trier les apprenants par ordre alphabétique");
         console.log("0. Quitter");
 
-        choix = Number(prompt("choisit une option: "))
+        choix = Number(prompt("Choisissez une option : "))
 
         switch (choix) {
             case 0:
@@ -284,14 +354,14 @@ function menu() {
                 ajouterApprenant()
                 break
             case 4:
-                let id = prompt("entrer id d'app : ")
+                let id = prompt("Entrer l'ID de l'apprenant : ")
                 rechercherApprenant(id)
                 break;
             case 5:
                 enregistrerResultat()
                 break;
             case 6:
-                let nom = prompt("entrer nom d'app : ")
+                let nom = prompt("Entrer le nom complet de l'apprenant : ")
                 rechercherApprenant(nom)
                 break;
             case 7:
